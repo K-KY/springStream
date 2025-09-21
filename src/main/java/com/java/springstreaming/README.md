@@ -15,10 +15,15 @@
   - Nginx로 다 해결 가능
 
 ### 백엔드가 제공 할 것
+- 요청한 영상의 hls가 없는경우 hls 생성
+  - ffmpeg 호출 로직 필요
 - 시청 기록
 - 영상 목록
 - 로그인
 - 허용된 사용자 목록
+  - 우선 백엔드 거치고 인증 토큰 발급
+  - 인증 토큰으로 Nginx 검증?
+    - 이게 되는지 안되는지 모름
 
 ### 영상 출력 (프론트)
 - video.js랑 hls.js가 있음
@@ -67,25 +72,3 @@ docker run -d \
 </body>
 </html>
 ````
-
-```html
-<!DOCTYPE html>
-<!--video js-->
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <title>Video.js HLS Test</title>
-  <link href="https://cdn.jsdelivr.net/npm/video.js@8/dist/video-js.min.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/video.js@8/dist/video.min.js"></script>
-  <style>body{font-family:sans-serif;padding:20px} .vjs-default-skin{width:80%;max-width:960px;}</style>
-</head>
-<body>
-<h1>Video.js (VHS) Player</h1>
-<video id="vjs" class="video-js vjs-default-skin" controls autoplay preload="auto"></video>
-<script>
-  const player = videojs('vjs', {fluid: true});
-  player.src({src: '/hls/1/output.m3u8', type: 'application/x-mpegURL'});
-</script>
-</body>
-</html>
-```
