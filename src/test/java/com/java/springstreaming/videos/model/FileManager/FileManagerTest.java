@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FileManagerTest {
 
-    private final FileManager fileManager = new FileManager();
+    private final FileManager fileManager = FileManager.getInstance();
     @Test
     @DisplayName("지정한 경로의 \"파일\"을 전부 읽는다.")
     public void fileReadTest() {

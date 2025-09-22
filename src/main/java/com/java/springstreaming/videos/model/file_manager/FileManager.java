@@ -8,11 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
+
+    private static FileManager fileManager;
+    private FileManager() {}
+    public static FileManager getInstance() {
+        if (fileManager == null) {
+            fileManager = new FileManager();
+        }
+        return fileManager;
+    }
+
     public List<Path> readFiles(String path) {
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(Path.of(path), Files::isRegularFile)) {
             return getList(ds);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("유효하지 않은 경로입니다.");
         }
     }
 
@@ -20,7 +30,7 @@ public class FileManager {
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(Path.of(path), Files::isDirectory)) {
             return getList(ds);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("유효하지 않은 경로입니다.");
         }
     }
 
