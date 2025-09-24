@@ -61,10 +61,26 @@ public class FileManager {
     private static List<Path> getList(DirectoryStream<Path> ds) {
         List<Path> paths = new ArrayList<>();
         for (Path p : ds) {
+            if(isHidden(p)) {
+                continue;
+            }
             paths.add(p.getFileName());
         }
         return paths;
     }
+
+    private static boolean isHidden(Path p) {
+        try {
+            Path name = p.getFileName();
+            if (name != null && name.toString().startsWith(".")) {
+                return true;
+            }
+            return java.nio.file.Files.isHidden(p);
+        } catch (java.io.IOException e) {
+            return true; // 상태 확인 실패 시 보이지 않게 처리
+        }
+    }
+
 
     //검증
     private Path validatePath(String path) {
