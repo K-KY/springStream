@@ -20,6 +20,12 @@ public class VideoController {
 
     private final DirectoryService directoryService;
 
+    @GetMapping
+    public ResponseEntity<List<String>> getVideo(String path) {
+        log.info("get video path: {}", path);
+        return getBody(directoryService.readHlsDirInPath(path).stream().map(Path::toString).toList());
+    }
+
     @GetMapping("file")
     public ResponseEntity<List<String>> getFileNames(String path) {
         log.info("Request Reading files from {}", path);

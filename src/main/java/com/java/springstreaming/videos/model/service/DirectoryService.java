@@ -30,4 +30,8 @@ public class DirectoryService {
     public List<Path> readDirs(String path) {
         return fileManager.readDirs(path);
     }
+
+    public List<Path> readHlsDirInPath(String path) {
+        return fileManager.readHlsDirInPath(path);
+    }
 }

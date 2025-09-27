@@ -9,6 +9,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Log4j2
 public class FileManager {
@@ -56,6 +57,22 @@ public class FileManager {
             throw new IllegalStateException("유효하지 않은 경로입니다." + "/");
         }
     }
+
+    public List<Path> readHlsDirInPath(String path) {
+        if (!isExist(path)) {
+            throw new NoSuchElementException("해당하는 제목을 찾지 못했습니다.");
+        }
+        List<Path> paths = readDirs(path + "/" + "hls/");
+        if (paths.isEmpty()) {
+            throw new IllegalArgumentException("파일이 없습니다.");
+        }
+        return paths;
+    }
+
+    public boolean isExist(String path) {
+        return readDirs().stream().map(Path::toString).anyMatch(s -> s.equals(path));
+    }
+
 
     //
     private static List<Path> getList(DirectoryStream<Path> ds) {
@@ -114,4 +131,5 @@ public class FileManager {
             throw new IllegalStateException("경로가 존재하지 않음: " + in, e);
         }
     }
+
 }
